@@ -1,6 +1,8 @@
-package api.enginner_peti9.entity;
+package api.enginner_peti9.dto.post;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,26 +13,26 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pet {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
+public class PetCreate {
+    @NotNull
     private int code;
-    @Column(length = 100, nullable = false)
+    @NotNull
+    @Size(max = 100)
     private String name;
-    @Column(length = 30, nullable = false)
+    @NotNull
+    @Size(max = 30)
     private String raça;
-    @Column(length = 10, nullable = false)
+    @NotNull
+    @Size(max = 10)
     private String cor;
-    @Column(length = 10, nullable = false)
+    @NotNull
+    @Size(max = 10)
     private String peso;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataNascimento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataVacina;
-    private String tipoVacina; //tipoVacinas Enum
+    private String tipoVacina; //enum de tipos de vacina
 }
