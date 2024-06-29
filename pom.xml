@@ -80,6 +80,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor</groupId>
@@ -104,6 +110,56 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.9</version>
+				<configuration>
+					<excludes>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/exception/*</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/handler/*</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/mapper/*</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/dto/**</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/entity/**</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/repository/*</exclude>
+						<exclude>br/com/meditt/modernizacao/simpleone/cadastro/EnginnerPeti9Application.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.2</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.hibernate.orm.tooling</groupId>
 				<artifactId>hibernate-enhance-maven-plugin</artifactId>

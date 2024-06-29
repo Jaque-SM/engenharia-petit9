@@ -22,6 +22,6 @@ public class Tutor {
     private String name;
     @Column(length = 100, nullable = false)
     private String nickname;
-    @OneToMany(cascade=CascadeType.PERSIST)
+    @OneToMany(mappedBy = "tutor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Pet> pets;
 }

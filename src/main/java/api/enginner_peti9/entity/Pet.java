@@ -23,7 +23,7 @@ public class Pet {
     @Column(length = 100, nullable = false)
     private String name;
     @Column(length = 30, nullable = false)
-    private String raça;
+    private String raca;
     @Column(length = 10, nullable = false)
     private String cor;
     @Column(length = 10, nullable = false)
@@ -33,4 +33,7 @@ public class Pet {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataVacina;
     private String tipoVacina; //tipoVacinas Enum
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
+    private Tutor tutor;
 }
