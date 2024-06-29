@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -24,29 +25,46 @@ public class TutorService {
     private PetRepository petRepository;
     private static final AtomicInteger count = new AtomicInteger();
 
-    public Tutor criar(Tutor tutor) {
+    public Tutor create(Tutor tutor) {
         int nextVal = count.incrementAndGet() + count.getAndIncrement();
         tutor.setCode(nextVal);
-        validarCampoVacina(tutor);
+        validateVaccine(tutor);
         if (tutorRepository.findByNameIgnoreCase(tutor.getName()).isPresent()){
             throw new AlreadyNameException(tutor.getName());
         }
-        adicionarPet(tutor);
+        //addPet(tutor);
         return tutorRepository.save(tutor);
     }
 
     public Tutor update(Tutor model) {
-        validarCampoVacina(model);
+        validateVaccine(model);
         Tutor fromDB = tutorRepository
                 .findById(model.getId()).orElseThrow(() -> new NotRegisteredException(
                         model.getId(), Tutor.class.getSimpleName()));
         model.setId(fromDB.getId());
-        adicionarPet(model);
+        addPet(model);
         return tutorRepository.save(model);
     }
 
     public List<Tutor> listAll() {
         return tutorRepository.findAll();
+    }
+
+    public List<Tutor> listByCodeTutor(int code){
+        return tutorRepository.findByCode(code);
+    }
+
+    public List<Tutor> listByNameTutor(String name){
+        return tutorRepository.findByNameIgnoreCaseStartsWith(name);
+    }
+
+    public Pet listByCodePet(int code){
+        Optional<Pet> pet = petRepository.findByCode(code);
+        return pet.get();
+    }
+
+    public List<Pet> listByNamePet(String name){
+        return petRepository.findByName(name);
     }
 
     public void delete(Long id) {
@@ -56,7 +74,7 @@ public class TutorService {
         tutorRepository.deleteById(id);
     }
 
-    private void validarCampoVacina(Tutor tutor){
+    private void validateVaccine(Tutor tutor){
         tutor.getPets().forEach(p-> {
             if (!(p.getTipoVacina() == null || VacinaTipos.contemValor(p.getTipoVacina()))) {
                 throw new VacinaOpcaoException(String.format("Vacina=%s", p.getTipoVacina()));
@@ -64,18 +82,18 @@ public class TutorService {
         });
     }
 
-    private void adicionarPet(Tutor tutor){
-
+    private void addPet(Tutor tutor){
         List<Pet> petsFromDb = new ArrayList<>();
 
         tutor.getPets().forEach(p-> {
-            if (tutor.getId()==null) {
-                if (petRepository.findByNameIgnoreCase(p.getName()).isPresent()&&petRepository.findByCode(p.getCode()).isPresent()){
+            if (tutor.getId() == null) {
+                if (petRepository.findByNameIgnoreCase(p.getName()).isPresent() && petRepository.findByCode(p.getCode()).isPresent()){
                     throw new AlreadyNameException(p.getName());
                 }
                 int nextVal = count.incrementAndGet() + count.getAndIncrement();
                 p.setCode(nextVal);
-                petsFromDb.add(petRepository.findByNameIgnoreCase(p.getName())
+                p.getTutor().setId(p.getId());
+               petsFromDb.add(petRepository.findByNameIgnoreCase(p.getName())
                         .orElse(petRepository.save(p)));
             }
             else {

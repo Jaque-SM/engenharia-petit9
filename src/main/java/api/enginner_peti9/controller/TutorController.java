@@ -2,6 +2,8 @@ package api.enginner_peti9.controller;
 
 import api.enginner_peti9.dto.patch.TutorUpdate;
 import api.enginner_peti9.dto.post.TutorCreate;
+import api.enginner_peti9.dto.response.PetOutDTO;
+import api.enginner_peti9.dto.response.PetOutDTOCode;
 import api.enginner_peti9.dto.response.TutorOutDTO;
 import api.enginner_peti9.entity.Tutor;
 import api.enginner_peti9.mapper.TutorMapper;
@@ -28,7 +30,7 @@ public class TutorController {
     @ResponseStatus(HttpStatus.CREATED)
     public TutorOutDTO create(@RequestBody @Valid TutorCreate dto) {
         logger.trace("create: {}", dto.getName());
-        return mapper.toDTO(service.criar(mapper.toModel(dto)));
+        return mapper.toDTO(service.create(mapper.toModel(dto)));
     }
 
     @PatchMapping("/{id}")
@@ -48,12 +50,41 @@ public class TutorController {
                 .toList();
     }
 
+    @GetMapping("/tutor/code/{code}")
+    public List<TutorOutDTO> listTutorByCode(@PathVariable int code) {
+        logger.trace("listTutorByCode");
+        return service.listByCodeTutor(code).stream()
+                .map(mapper::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/tutor/name/{name}")
+    public List<TutorOutDTO> listTutorByName(@PathVariable String name) {
+        logger.trace("listTutorByName");
+        return service.listByNameTutor(name).stream()
+                .map(mapper::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/pet/code/{code}")
+    public PetOutDTOCode getPetByCode(@PathVariable int code) {
+        logger.trace("getPetByCode");
+        return new PetOutDTOCode(service.listByCodePet(code));
+    }
+
+    /*@GetMapping("/pet/name/{name}")
+    public List<PetOutDTOCode> listPetByName(@PathVariable String name) {
+        logger.trace("listPetByName");
+        return service.listByNamePet(name).stream()
+                .map(mapper::toDTO)
+                .toList();
+    }*/
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         logger.trace("delete: {}", id);
         service.delete(id);
     }
-
 
 }

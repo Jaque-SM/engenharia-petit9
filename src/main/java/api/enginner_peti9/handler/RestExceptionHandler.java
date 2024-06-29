@@ -16,17 +16,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
+    private final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @ExceptionHandler(value = {AlreadyNameException.class })
     protected ResponseEntity<Object> alreadyNameException(AlreadyNameException ex, WebRequest request) {
-        logger.info(ex.getMessage());
+        log.info(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(value = {NotRegisteredException.class })
     protected ResponseEntity<Object> notRegisteredException(AlreadyNameException ex, WebRequest request) {
-        logger.info(ex.getMessage());
+        log.info(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 

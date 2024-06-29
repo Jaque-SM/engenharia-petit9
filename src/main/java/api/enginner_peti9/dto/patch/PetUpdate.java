@@ -1,5 +1,6 @@
 package api.enginner_peti9.dto.patch;
 
+import api.enginner_peti9.entity.Tutor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,7 +25,7 @@ public class PetUpdate {
     private String name;
     @NotNull
     @Size(max = 30)
-    private String raça;
+    private String raca;
     @NotNull
     @Size(max = 10)
     private String cor;
@@ -36,4 +37,5 @@ public class PetUpdate {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataVacina;
     private String tipoVacina; //enum de tipos de vacina
+    private Tutor tutor;
 }
