@@ -28,7 +28,7 @@ public class TutorService {
     public Tutor create(Tutor tutor) {
         int nextVal = count.incrementAndGet() + count.getAndIncrement();
         tutor.setCode(nextVal);
-        validateVaccine(tutor);
+//        validateVaccine(tutor);
         if (tutorRepository.findByNameIgnoreCase(tutor.getName()).isPresent()){
             throw new AlreadyNameException(tutor.getName());
         }

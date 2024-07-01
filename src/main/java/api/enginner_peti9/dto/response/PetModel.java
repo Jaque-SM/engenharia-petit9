@@ -1,10 +1,8 @@
-package api.enginner_peti9.dto.post;
+package api.enginner_peti9.dto.response;
 
+import api.enginner_peti9.entity.Pet;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,28 +10,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetCreate {
-
-    @NotNull
+public class PetModel {
     private int code;
 
-    @NotNull
-    @Size(max = 100)
     private String name;
 
-    @NotNull
-    @Size(max = 30)
     private String raca;
 
-    @NotNull
-    @Size(max = 10)
     private String cor;
 
-    @NotNull
-    @Size(max = 10)
     private String peso;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
@@ -42,6 +29,6 @@ public class PetCreate {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataVacina;
 
-    private String tipoVacina; //enum de tipos de vacina
+    private String tipoVacina;
 
 }
