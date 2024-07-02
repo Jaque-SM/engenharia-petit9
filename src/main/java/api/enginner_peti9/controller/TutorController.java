@@ -5,13 +5,9 @@ import api.enginner_peti9.dto.assembler.TutorModelAssembler;
 import api.enginner_peti9.dto.patch.TutorUpdate;
 import api.enginner_peti9.dto.post.TutorCreate;
 import api.enginner_peti9.dto.response.PetOutDTOCode;
-import api.enginner_peti9.dto.response.TutorDTO;
-import api.enginner_peti9.dto.response.TutorModel;
 import api.enginner_peti9.dto.response.TutorOutDTO;
-import api.enginner_peti9.entity.Pet;
 import api.enginner_peti9.entity.Tutor;
 import api.enginner_peti9.mapper.TutorMapper;
-import api.enginner_peti9.repository.TutorRepository;
 import api.enginner_peti9.service.TutorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,30 +18,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/peti9/engenharia")
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class TutorController {
-
     private final Logger logger = LoggerFactory.getLogger(TutorController.class);
     private final TutorMapper mapper;
     private final TutorService service;
 
-    private TutorCreateDisassembler tutorCreateDisassembler;
-    private TutorModelAssembler tutorModelAssembler;
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TutorModel create(@RequestBody @Valid TutorCreate dto) {
+    public TutorOutDTO create(@RequestBody @Valid TutorCreate dto) {
         logger.trace("create: {}", dto.getName());
-
-        Tutor tutor = this.tutorCreateDisassembler.toDomainObject(dto);
-
-        tutor = this.service.create(tutor);
-
-        return tutorModelAssembler.toModel(tutor);
+        return mapper.toDTO(service.create(mapper.toModel(dto)));
     }
 
     @PatchMapping("/{id}")
@@ -86,14 +72,6 @@ public class TutorController {
         logger.trace("getPetByCode");
         return new PetOutDTOCode(service.listByCodePet(code));
     }
-
-    /*@GetMapping("/pet/name/{name}")
-    public List<PetOutDTOCode> listPetByName(@PathVariable String name) {
-        logger.trace("listPetByName");
-        return service.listByNamePet(name).stream()
-                .map(mapper::toDTO)
-                .toList();
-    }*/
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

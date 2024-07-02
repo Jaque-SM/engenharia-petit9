@@ -28,11 +28,11 @@ public class TutorService {
     public Tutor create(Tutor tutor) {
         int nextVal = count.incrementAndGet() + count.getAndIncrement();
         tutor.setCode(nextVal);
-//        validateVaccine(tutor);
+        validateVaccine(tutor);
         if (tutorRepository.findByNameIgnoreCase(tutor.getName()).isPresent()){
             throw new AlreadyNameException(tutor.getName());
         }
-        //addPet(tutor);
+        addPet(tutor);
         return tutorRepository.save(tutor);
     }
 
@@ -92,7 +92,6 @@ public class TutorService {
                 }
                 int nextVal = count.incrementAndGet() + count.getAndIncrement();
                 p.setCode(nextVal);
-                p.getTutor().setId(p.getId());
                petsFromDb.add(petRepository.findByNameIgnoreCase(p.getName())
                         .orElse(petRepository.save(p)));
             }

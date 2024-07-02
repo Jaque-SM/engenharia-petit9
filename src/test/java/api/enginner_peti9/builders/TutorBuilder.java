@@ -8,13 +8,13 @@ import api.enginner_peti9.entity.Tutor;
 import java.util.List;
 
 public class TutorBuilder {
-    public static Tutor buildLClinica() {
+    public static Tutor buildLTutor() {
         return Tutor.builder()
                 .id(1L)
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets(List.of(PetBuilder))
+                .pets(List.of())
                 .build();
     }
 
@@ -23,7 +23,7 @@ public class TutorBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class TutorBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
@@ -43,7 +43,7 @@ public class TutorBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
