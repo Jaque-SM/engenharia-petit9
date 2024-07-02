@@ -5,6 +5,8 @@ import api.enginner_peti9.dto.post.TutorCreate;
 import api.enginner_peti9.dto.response.TutorOutDTO;
 import api.enginner_peti9.entity.Tutor;
 
+import java.util.List;
+
 public class PetBuilder {
 
     public static Tutor buildLClinica() {
@@ -13,7 +15,7 @@ public class PetBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
@@ -22,7 +24,7 @@ public class PetBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
@@ -32,7 +34,7 @@ public class PetBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 
@@ -42,7 +44,7 @@ public class PetBuilder {
                 .code(1)
                 .name("Jaque")
                 .nickname("Ja")
-                .pets()
+                .pets(List.of())
                 .build();
     }
 

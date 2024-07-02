@@ -38,6 +38,6 @@ public class PetOutDTOCode {
         this.dataNascimento=pet.getDataNascimento();
         this.dataVacina=pet.getDataVacina();
         this.tipoVacina=pet.getTipoVacina();
-        this.tutorName=pet.getTutor().getName();
+        //this.tutorName=pet.getTutor().getName();
     }
 }
